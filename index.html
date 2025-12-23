@@ -1,135 +1,170 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffre de la maison Ducal</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background: #1c1c1c url('https://www.transparenttextures.com/patterns/metal.png') repeat; /* texture métallique */
-            color: #fff;
-        }
-        h1 {
-            color: #ffd700; /* doré */
-            margin-top: 50px;
-        }
-        input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            width: 200px;
-            margin-top: 10px;
-            border: 2px solid #ffd700;
-            border-radius: 5px;
-            background-color: #333;
-            color: #fff;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin-top: 10px;
-            cursor: pointer;
-            border: 2px solid #ffd700;
-            border-radius: 5px;
-            background-color: #444;
-            color: #ffd700;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffre de la maison Ducal</title>
 
-        /* Page coffre validé */
-        #successPage {
-            display: none;
-            position: relative;
-            height: 100vh;
-            background: #111 url('https://www.transparenttextures.com/patterns/metal.png') repeat;
-            color: #ffd700;
-            overflow: hidden;
-        }
-        #successPage h2 {
-            margin-top: 50px;
-            font-size: 24px;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #333, #000);
+    color: #ffd700;
+    overflow: hidden;
+}
 
-        /* Billets */
-        .bill {
-            position: absolute;
-            width: 50px;
-            height: 20px;
-            background-color: green;
-            border: 2px solid darkgreen;
-            border-radius: 5px;
-            top: -50px;
-            animation: fall linear infinite;
-        }
+/* Cadre du coffre */
+#coffrePage, #successPage {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle, rgba(255,215,0,0.15), transparent 70%),
+        url('https://www.transparenttextures.com/patterns/brushed-alum.png');
+    box-shadow: inset 0 0 80px rgba(0,0,0,0.9);
+}
 
-        /* Pièces d'or */
-        .coin {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: gold;
-            border: 2px solid darkgoldenrod;
-            border-radius: 50%;
-            top: -50px;
-            animation: fall linear infinite;
-        }
+h1, h2 {
+    text-shadow: 0 0 10px gold;
+}
 
-        @keyframes fall {
-            0% {transform: translateY(0) rotate(0deg);}
-            100% {transform: translateY(100vh) rotate(360deg);}
-        }
-    </style>
+/* Coffre visuel */
+.coffre {
+    padding: 40px;
+    border: 6px solid #555;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+    box-shadow:
+        inset 0 0 30px rgba(255,215,0,0.2),
+        0 0 40px rgba(0,0,0,0.9);
+}
+
+/* Inputs */
+input, button {
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 16px;
+    background: #111;
+    border: 2px solid gold;
+    color: gold;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: gold;
+    color: black;
+    cursor: pointer;
+}
+
+/* Billets */
+.bill {
+    position: absolute;
+    width: 80px;
+    height: 35px;
+    background: linear-gradient(#2ecc71, #27ae60);
+    border: 2px solid #145a32;
+    border-radius: 5px;
+    animation: fall linear infinite;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+/* Pièces */
+.coin {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle at top, #fff6a3, gold);
+    border-radius: 50%;
+    animation: fall linear infinite;
+    box-shadow: 0 0 10px gold;
+}
+
+/* Lasers sécurité */
+.laser {
+    position: absolute;
+    width: 2px;
+    height: 100vh;
+    background: red;
+    opacity: 0.6;
+    animation: laserMove 2s infinite alternate;
+}
+
+@keyframes laserMove {
+    from { opacity: 0.2; }
+    to { opacity: 0.8; }
+}
+
+@keyframes fall {
+    0% { transform: translateY(-50px) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+}
+
+#successPage {
+    display: none;
+}
+</style>
 </head>
+
 <body>
-    <div id="coffrePage">
-        <h1>Coffre de la maison Ducal</h1>
-        <br><br>
-        <label for="code">Code du coffre :</label>
-        <br>
-        <input type="text" id="code" name="code" placeholder="Entrez le code">
-        <br>
+
+<div id="coffrePage">
+    <div class="coffre">
+        <h1>🔒 Coffre de la maison Ducal 🔒</h1>
+        <label>Code du coffre :</label><br>
+        <input type="text" id="code" placeholder="Entrez le code"><br>
         <button onclick="verifierCode()">Valider</button>
     </div>
+</div>
 
-    <div id="successPage">
-        <h2>Montrer ça à Cyprien pour qu'il vous donne votre récompense</h2>
-    </div>
+<div id="successPage">
+    <h2>💰 Montre ça à Cyprien pour ta récompense 💰</h2>
+</div>
 
-    <script>
-        function verifierCode() {
-            const code = document.getElementById("code").value;
-            if (code === "1475667") { // nouveau code
-                document.getElementById("coffrePage").style.display = "none";
-                document.getElementById("successPage").style.display = "block";
-                lancerPluie();
-            } else {
-                alert("Code incorrect !");
-            }
-        }
+<script>
+function verifierCode() {
+    const code = document.getElementById("code").value;
+    if (code === "1475667") {
+        coffrePage.style.display = "none";
+        successPage.style.display = "flex";
+        lancerEffets();
+    } else {
+        alert("⛔ Accès refusé");
+    }
+}
 
-        function lancerPluie() {
-            // Billets
-            for (let i = 0; i < 30; i++) {
-                const bill = document.createElement("div");
-                bill.className = "bill";
-                bill.style.left = Math.random() * window.innerWidth + "px";
-                bill.style.animationDuration = (2 + Math.random() * 3) + "s";
-                bill.style.opacity = Math.random();
-                document.getElementById("successPage").appendChild(bill);
-            }
+function lancerEffets() {
 
-            // Pièces d'or
-            for (let i = 0; i < 20; i++) {
-                const coin = document.createElement("div");
-                coin.className = "coin";
-                coin.style.left = Math.random() * window.innerWidth + "px";
-                coin.style.animationDuration = (1.5 + Math.random() * 2) + "s";
-                coin.style.opacity = Math.random();
-                document.getElementById("successPage").appendChild(coin);
-            }
-        }
-    </script>
+    // Billets
+    for (let i = 0; i < 40; i++) {
+        let b = document.createElement("div");
+        b.className = "bill";
+        b.style.left = Math.random() * innerWidth + "px";
+        b.style.animationDuration = (3 + Math.random() * 4) + "s";
+        successPage.appendChild(b);
+    }
+
+    // Pièces
+    for (let i = 0; i < 30; i++) {
+        let c = document.createElement("div");
+        c.className = "coin";
+        c.style.left = Math.random() * innerWidth + "px";
+        c.style.animationDuration = (2 + Math.random() * 3) + "s";
+        successPage.appendChild(c);
+    }
+
+    // Lasers
+    for (let i = 0; i < 5; i++) {
+        let l = document.createElement("div");
+        l.className = "laser";
+        l.style.left = Math.random() * innerWidth + "px";
+        successPage.appendChild(l);
+    }
+}
+</script>
+
 </body>
 </html>
