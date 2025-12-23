@@ -6,18 +6,23 @@
 <title>Coffre de la maison Ducal</title>
 
 <style>
+/* Sécurité mobile */
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: radial-gradient(circle at top, #333, #000);
     color: #ffd700;
-    overflow: hidden;
+    overflow-x: hidden; /* évite bandes sur mobile */
 }
 
-/* Cadre du coffre */
+/* Pages */
 #coffrePage, #successPage {
     position: relative;
-    height: 100vh;
+    min-height: 100dvh; /* mobile safe */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,25 +31,29 @@ body {
         radial-gradient(circle, rgba(255,215,0,0.15), transparent 70%),
         url('https://www.transparenttextures.com/patterns/brushed-alum.png');
     box-shadow: inset 0 0 80px rgba(0,0,0,0.9);
+    overflow: hidden;
 }
 
 h1, h2 {
+    text-align: center;
     text-shadow: 0 0 10px gold;
 }
 
-/* Coffre visuel */
+/* Coffre */
 .coffre {
-    padding: 40px;
-    border: 6px solid #555;
+    padding: 30px;
+    border: 5px solid #555;
     border-radius: 15px;
     background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
     box-shadow:
         inset 0 0 30px rgba(255,215,0,0.2),
         0 0 40px rgba(0,0,0,0.9);
+    max-width: 90%;
 }
 
 /* Inputs */
 input, button {
+    width: 100%;
     margin-top: 10px;
     padding: 12px;
     font-size: 16px;
@@ -63,8 +72,8 @@ button:hover {
 /* Billets */
 .bill {
     position: absolute;
-    width: 80px;
-    height: 35px;
+    width: 70px;
+    height: 30px;
     background: linear-gradient(#2ecc71, #27ae60);
     border: 2px solid #145a32;
     border-radius: 5px;
@@ -75,36 +84,51 @@ button:hover {
 /* Pièces */
 .coin {
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     background: radial-gradient(circle at top, #fff6a3, gold);
     border-radius: 50%;
     animation: fall linear infinite;
     box-shadow: 0 0 10px gold;
 }
 
-/* Lasers sécurité */
+/* Lasers diagonaux (mobile safe) */
 .laser {
     position: absolute;
-    width: 2px;
-    height: 100vh;
-    background: red;
-    opacity: 0.6;
-    animation: laserMove 2s infinite alternate;
+    width: 150%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, red, transparent);
+    opacity: 0.35;
+    animation: laserScan linear infinite;
 }
 
-@keyframes laserMove {
-    from { opacity: 0.2; }
-    to { opacity: 0.8; }
+@keyframes laserScan {
+    from {
+        transform: translateY(-50px) rotate(-15deg);
+    }
+    to {
+        transform: translateY(120dvh) rotate(-15deg);
+    }
 }
 
 @keyframes fall {
-    0% { transform: translateY(-50px) rotate(0deg); }
-    100% { transform: translateY(110vh) rotate(360deg); }
+    from {
+        transform: translateY(-50px) rotate(0deg);
+    }
+    to {
+        transform: translateY(120dvh) rotate(360deg);
+    }
 }
 
 #successPage {
     display: none;
+}
+
+/* Optimisation petits écrans */
+@media (max-width: 480px) {
+    .bill { width: 55px; height: 25px; }
+    .coin { width: 18px; height: 18px; }
+    .laser { display: none; } /* batterie + confort */
 }
 </style>
 </head>
@@ -114,8 +138,8 @@ button:hover {
 <div id="coffrePage">
     <div class="coffre">
         <h1>🔒 Coffre de la maison Ducal 🔒</h1>
-        <label>Code du coffre :</label><br>
-        <input type="text" id="code" placeholder="Entrez le code"><br>
+        <label for="code">Code du coffre :</label>
+        <input type="text" id="code" placeholder="Entrez le code">
         <button onclick="verifierCode()">Valider</button>
     </div>
 </div>
@@ -125,6 +149,9 @@ button:hover {
 </div>
 
 <script>
+const coffrePage = document.getElementById("coffrePage");
+const successPage = document.getElementById("successPage");
+
 function verifierCode() {
     const code = document.getElementById("code").value;
     if (code === "1475667") {
@@ -139,29 +166,30 @@ function verifierCode() {
 function lancerEffets() {
 
     // Billets
-    for (let i = 0; i < 40; i++) {
-        let b = document.createElement("div");
-        b.className = "bill";
-        b.style.left = Math.random() * innerWidth + "px";
-        b.style.animationDuration = (3 + Math.random() * 4) + "s";
-        successPage.appendChild(b);
+    for (let i = 0; i < 30; i++) {
+        const bill = document.createElement("div");
+        bill.className = "bill";
+        bill.style.left = Math.random() * window.innerWidth + "px";
+        bill.style.animationDuration = (3 + Math.random() * 4) + "s";
+        successPage.appendChild(bill);
     }
 
     // Pièces
-    for (let i = 0; i < 30; i++) {
-        let c = document.createElement("div");
-        c.className = "coin";
-        c.style.left = Math.random() * innerWidth + "px";
-        c.style.animationDuration = (2 + Math.random() * 3) + "s";
-        successPage.appendChild(c);
+    for (let i = 0; i < 25; i++) {
+        const coin = document.createElement("div");
+        coin.className = "coin";
+        coin.style.left = Math.random() * window.innerWidth + "px";
+        coin.style.animationDuration = (2 + Math.random() * 3) + "s";
+        successPage.appendChild(coin);
     }
 
-    // Lasers
-    for (let i = 0; i < 5; i++) {
-        let l = document.createElement("div");
-        l.className = "laser";
-        l.style.left = Math.random() * innerWidth + "px";
-        successPage.appendChild(l);
+    // Lasers diagonaux
+    for (let i = 0; i < 3; i++) {
+        const laser = document.createElement("div");
+        laser.className = "laser";
+        laser.style.top = Math.random() * window.innerHeight + "px";
+        laser.style.animationDuration = (2 + Math.random() * 2) + "s";
+        successPage.appendChild(laser);
     }
 }
 </script>
