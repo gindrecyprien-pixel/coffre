@@ -8,23 +8,34 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 50px;
-            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            background: #1c1c1c url('https://www.transparenttextures.com/patterns/metal.png') repeat; /* texture métallique */
+            color: #fff;
         }
         h1 {
-            color: #333;
+            color: #ffd700; /* doré */
+            margin-top: 50px;
         }
         input[type="text"] {
             padding: 10px;
             font-size: 16px;
             width: 200px;
             margin-top: 10px;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
         }
         button {
             padding: 10px 20px;
             font-size: 16px;
             margin-top: 10px;
             cursor: pointer;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            background-color: #444;
+            color: #ffd700;
         }
 
         /* Page coffre validé */
@@ -32,12 +43,13 @@
             display: none;
             position: relative;
             height: 100vh;
-            background-color: #222;
-            color: #fff;
+            background: #111 url('https://www.transparenttextures.com/patterns/metal.png') repeat;
+            color: #ffd700;
             overflow: hidden;
         }
         #successPage h2 {
             margin-top: 50px;
+            font-size: 24px;
         }
 
         /* Billets */
@@ -88,7 +100,7 @@
     <script>
         function verifierCode() {
             const code = document.getElementById("code").value;
-            if (code === "1234") {
+            if (code === "1475667") { // nouveau code
                 document.getElementById("coffrePage").style.display = "none";
                 document.getElementById("successPage").style.display = "block";
                 lancerPluie();
