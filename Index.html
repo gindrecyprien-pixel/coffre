@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffre de la maison Ducal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        /* Page coffre validé */
+        #successPage {
+            display: none;
+            position: relative;
+            height: 100vh;
+            background-color: #222;
+            color: #fff;
+            overflow: hidden;
+        }
+        #successPage h2 {
+            margin-top: 50px;
+        }
+        .bill {
+            position: absolute;
+            width: 50px;
+            height: 20px;
+            background-color: green;
+            border: 2px solid darkgreen;
+            border-radius: 5px;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {transform: translateY(0) rotate(0deg);}
+            100% {transform: translateY(100vh) rotate(360deg);}
+        }
+    </style>
+</head>
+<body>
+    <div id="coffrePage">
+        <h1>Coffre de la maison Ducal</h1>
+        <br><br>
+        <label for="code">Code du coffre :</label>
+        <br>
+        <input type="text" id="code" name="code" placeholder="Entrez le code">
+        <br>
+        <button onclick="verifierCode()">Valider</button>
+    </div>
+
+    <div id="successPage">
+        <h2>Montrer ça à Cyprien pour qu'il vous donne votre récompense</h2>
+    </div>
+
+    <script>
+        function verifierCode() {
+            const code = document.getElementById("code").value;
+            if (code === "1234") {
+                document.getElementById("coffrePage").style.display = "none";
+                document.getElementById("successPage").style.display = "block";
+                lancerPluie();
+            } else {
+                alert("Code incorrect !");
+            }
+        }
+
+        function lancerPluie() {
+            for (let i = 0; i < 30; i++) {
+                const bill = document.createElement("div");
+                bill.className = "bill";
+                bill.style.left = Math.random() * window.innerWidth + "px";
+                bill.style.animationDuration = (2 + Math.random() * 3) + "s";
+                bill.style.opacity = Math.random();
+                document.getElementById("successPage").appendChild(bill);
+            }
+        }
+    </script>
+</body>
+</html>
 
